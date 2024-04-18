@@ -196,6 +196,4 @@ Apply complete! Resources: 7 added, 1 changed, 0 destroyed.
 
 ```
 
-After a few minutes, open a browser and in my case go to https://de-final-project-k7cvpn4vyq-wl.a.run.app
-
-
+After a few minutes, open a browser the link you recieved above

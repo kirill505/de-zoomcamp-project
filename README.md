@@ -27,8 +27,24 @@ Downloaded data between 2014-01-01 and 2024-04-14 is stored here: https://github
 ## Data pipeline
 ![de-zoomcamp-project.drawio (1).png](images%2Fde-zoomcamp-project.drawio%20%281%29.png)
 
-## Dashboard
+### Pipeline 1
+- The 1st pipeline downloading previous historical data from 2014 to 2024. These data I downloaded using producthunt API on my local machine.
+- Then I uploaded these data to GCP using CLI tool gsutil. 
+- And also this pipeline doing some data transformation: explicit casting of data types, data normalization.
+- And finally I upload data, bunch of json files to GCP.
 
+![img.png](images/pipeline-1.png)
+
+### Pipeline 2
+- The 2nd pipeline running everyday and making API request for downloading data for previous day. I also use there producthunt API.
+- And also this pipeline doing some data transformation: explicit casting of data types, data normalization.
+- And finally I upload data for previous day to BigQuery.
+
+![img.png](images/pipeline-2.png)
+
+## Dashboard
+https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793
+![img.png](images/dashboard.png)
 
 ## Instructions on how to replicate the project
 

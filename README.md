@@ -6,15 +6,30 @@ _This is my final DE project for the [Data Engineering Zoomcamp 2024](https://gi
 Developing an end-to-end pipeline to perform advanced analytics, to handle the ingestion, processing and data analysis, with the purpose of generating useful dashboard with daily data updates from the most popular startups launch platform producthunt.com.
 
 ## Problem statement
+  If you are interested in launching a startup, you need to know competitors, current trends, and some ideas. Also, you need to know the best day of the week and the best hours to post your project.
+
+ProductHunt has an archive section of projects posted in the past and some filters, but they are really simple. I hope my project will help you to launch a startup.
 Analysis information about last launched startups, most popular topics, correlation launches date and their activities on platform. This data needs to be automatically stored and processed in a way that analysts can quickly analyze and build out reports and dashboards.
 
 ## Dataset
-I parsed previous data from archives using producthunt API: https://www.producthunt.com/leaderboard/daily/2024/4/16?ref=header_nav.
+I parsed previous data from archives using producthunt API: https://api.producthunt.com/v2/docs
 
-Producthunt API: ttps://api.producthunt.com/v2/docs
+For parsing data I wrote the srcipt - producthunt_parser.py. It running by CMD. Example:
+```bash
+export PH_API_KEY='api_key'
+python producthunt.py -d "2024-04-18 2024-04-17" -k "PH_API_KEY_2"
+````
 
-Downloaded data between 2014-01-01 and 2024-04-14 is stored here: https://github.com/kirill505/de-zoomcamp-project/releases/tag/posts
+And downloaded historical data between 2014-01-01 and 2024-04-17 I uploaded to github: https://github.com/kirill505/de-zoomcamp-project/releases/tag/posts
 
+![data_on_github.png](images%2Fdata_on_github.png)
+
+But for next working with that data I uploaded to GCP using cmd tool - gsutil:
+```bash
+gsutil -m cp -r 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024  gs://bucket_name
+```
+
+![gcp_bucket.png](images%2Fgcp_bucket.png)
 
 ## Technologies
 - Infrastructure as code (IaC): Terraform 
@@ -25,13 +40,13 @@ Downloaded data between 2014-01-01 and 2024-04-14 is stored here: https://github
 - Dashboard: Google Data Studio / Looker Studio
 
 ## Data pipeline
-![de-zoomcamp-project.drawio (1).png](images%2Fde-zoomcamp-project.drawio%20%281%29.png)
+![pipeline.png](images/pipeline.png)
 
 ### Pipeline 1
 - The 1st pipeline downloading previous historical data from 2014 to 2024. These data I downloaded using producthunt API on my local machine.
 - Then I uploaded these data to GCP using CLI tool gsutil. 
 - And also this pipeline doing some data transformation: explicit casting of data types, data normalization.
-- And finally I upload data, bunch of json files to GCP.
+- And finally I upload data to BigQuery
 
 ![img.png](images/pipeline-1.png)
 
@@ -45,8 +60,14 @@ Downloaded data between 2014-01-01 and 2024-04-14 is stored here: https://github
 ## Dashboard
 [Check out dashboard here](https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793)
 
+#### The 1st view about looking at data in section by year:
+
 ![dashboard_1.png](images%2Fdashboard_1.png)
+
+#### The 2nd view about looking at data in section by day:
 ![dashboard_2.png](images%2Fdashboard_2.png)
+
+#### The 3rd view allowing you to check which days of the week or hours of the day are the best for launching
 ![dashboard_3.png](images%2Fdashboard_3.png)
 
 ## Instructions on how to replicate the project

@@ -3,7 +3,7 @@
 _This is my final DE project for the [Data Engineering Zoomcamp 2024](https://github.com/DataTalksClub/data-engineering-zoomcamp) by [DataTalks.Club](https://datatalks.club/)_
 
 ## Objective
-Developing an end-to-end pipeline to perform advanced analytics, to handle the ingestion, processing and data analysis, with the purpose of generating useful dashboard with daily data updates from the most popular startups launch website producthunt.com.
+Developing an end-to-end pipeline to perform advanced analytics, to handle the ingestion, processing and data analysis, with the purpose of generating useful dashboard with daily data updates from the most popular startups launch platform producthunt.com.
 
 ## Problem statement
 Analysis information about last launched startups, most popular topics, correlation launches date and their activities on platform. This data needs to be automatically stored and processed in a way that analysts can quickly analyze and build out reports and dashboards.
@@ -43,8 +43,11 @@ Downloaded data between 2014-01-01 and 2024-04-14 is stored here: https://github
 ![img.png](images/pipeline-2.png)
 
 ## Dashboard
-https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793
-![img.png](images/dashboard.png)
+[Check out dashboard here](https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793)
+
+![dashboard_1.png](images%2Fdashboard_1.png)
+![dashboard_2.png](images%2Fdashboard_2.png)
+![dashboard_3.png](images%2Fdashboard_3.png)
 
 ## Instructions on how to replicate the project
 

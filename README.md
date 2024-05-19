@@ -1,15 +1,52 @@
-# Product Hunt Analysis - Data Engineering Capstone Project
+# ProductHunt Insights: End-to-End Data Engineering Capstone Project
+***
 
-_This is my final DE project for the [Data Engineering Zoomcamp 2024](https://github.com/DataTalksClub/data-engineering-zoomcamp) by [DataTalks.Club](https://datatalks.club/)_
+![pipeline.png](images/pipeline.png)
 
-## Objective
-Developing an end-to-end pipeline to perform advanced analytics, to handle the ingestion, processing and data analysis, with the purpose of generating useful dashboard with daily data updates from the most popular startups launch platform producthunt.com.
+This project, developed for the [Data Engineering Zoomcamp 2024](https://github.com/DataTalksClub/data-engineering-zoomcamp) by [DataTalks.Club](https://datatalks.club/), involves building an end-to-end data pipeline to extract, transform, and visualize ProductHunt data. The goal is to enable advanced analytics on startup launches, providing insights on trends, competitors, and optimal launch times. The pipeline includes data ingestion from the ProductHunt API, storage in Google Cloud Storage, processing with BigQuery, transformations via dbt, and visualization using Looker Studio.
 
-## Problem statement
-  If you are interested in launching a startup, you need to know competitors, current trends, and some ideas. Also, you need to know the best day of the week and the best hours to post your project.
+***
+## Technologies Used
+- **Infrastructure as Code (IaC):** Terraform
+- **Workflow Orchestration:** Mage
+- **Data Lake:** Google Cloud Storage (GCS)
+- **Data Warehouse (DWH):** BigQuery
+- **Transformations:** Pandas
+- **Dashboard:** Google Data Studio / Looker Studio
 
-ProductHunt has an archive section of projects posted in the past and some filters, but they are really simple. I hope my project will help you to launch a startup.
-Analysis information about last launched startups, most popular topics, correlation launches date and their activities on platform. This data needs to be automatically stored and processed in a way that analysts can quickly analyze and build out reports and dashboards.
+***
+## Data Pipeline Overview
+### Pipeline 1
+1. **Data Extraction:** Download historical data (2014-2024) using the ProductHunt API.
+2. **Transformation:** Cast data types and normalize data.
+3. **Loading:** Upload transformed data to BigQuery.
+
+![img.png](images/pipeline-1.png)
+
+### Pipeline 2
+1. **Daily Updates:** Fetch previous day's data from ProductHunt API.
+2. **Transformation:** Process and normalize data.
+3. **Loading:** Append daily data to BigQuery.
+
+![img.png](images/pipeline-2.png)
+
+***
+## Dashboard
+- Visualizes yearly and daily data.
+- Analyzes best times and days for launching startups.
+- Provides insights into popular topics and trends.
+
+[Check out dashboard here](https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793)
+
+![dashboard_2_2.png](images%2Fdashboard_2-2.png)
+![dashboard_3_3.png](images%2Fdashboard_3.png)
+
+## Instructions to Replicate the Project
+1. [**Install Terraform:**](#1-install-and-setting-up-terraform) Setup Terraform for infrastructure management.
+2. [**Install gcloud CLI:**](#2-install-and-setting-up-the-gcloud-cli) Configure Google Cloud CLI for managing services.
+3. [**Setup Service Account:**](#3-setup-permissions-for-service-account-) Create and configure service accounts and permissions.
+4. [**Creating Secrets**](#4-setting-up-terraform-and-creating-secret) Creating Secret
+5. [**Deploy Infrastructure:**](#5-deploying-) Use Terraform scripts to deploy resources.
 
 ## Dataset
 I parsed previous data from archives using producthunt API: https://api.producthunt.com/v2/docs
@@ -31,50 +68,11 @@ gsutil -m cp -r 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024  gs://bucket_n
 
 ![gcp_bucket.png](images%2Fgcp_bucket.png)
 
-## Technologies
-- Infrastructure as code (IaC): Terraform 
-- Workflow orchestration: Mage
-- Data Lake: Google Cloud Storage (GCS)
-- DWH: BigQuery 
-- Transformations: dbt 
-- Dashboard: Google Data Studio / Looker Studio
-
-## Data pipeline
-![pipeline.png](images/pipeline.png)
-
-### Pipeline 1
-- The 1st pipeline downloading previous historical data from 2014 to 2024. These data I downloaded using producthunt API on my local machine.
-- Then I uploaded these data to GCP using CLI tool gsutil. 
-- And also this pipeline doing some data transformation: explicit casting of data types, data normalization.
-- And finally I upload data to BigQuery
-
-![img.png](images/pipeline-1.png)
-
-### Pipeline 2
-- The 2nd pipeline running everyday and making API request for downloading data for previous day. I also use there producthunt API.
-- And also this pipeline doing some data transformation: explicit casting of data types, data normalization.
-- And finally I upload data for previous day to BigQuery.
-
-![img.png](images/pipeline-2.png)
-
-## Dashboard
-[Check out dashboard here](https://lookerstudio.google.com/reporting/b8205408-d9c1-45bf-a45d-14bcfa77f793)
-
-#### The 1st view about looking at data in section by year:
-
-![dashboard_1.png](images%2Fdashboard_1.png)
-
-#### The 2nd view about looking at data in section by day:
-![dashboard_2.png](images%2Fdashboard_2.png)
-
-#### The 3rd view allowing you to check which days of the week or hours of the day are the best for launching
-![dashboard_3.png](images%2Fdashboard_3.png)
-
 ## Instructions on how to replicate the project
 
-### 1. Setting up Google Cloud Platform account
+### Setting up Google Cloud Platform account
 In this section, I'll cover deploying Mage using Terraform and Google Cloud.
-#### 1.2 Install and Setting up Terraform
+#### 1. Install and Setting up Terraform
 Ensure that your system is up to date and you have installed the gnupg, software-properties-common, and curl packages installed. You will use these packages to verify HashiCorp's GPG signature and install HashiCorp's Debian package repository.
 ```bash
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
@@ -116,7 +114,7 @@ Verify that the installation worked by opening a new terminal session and listin
 terraform -help
 ```
 
-#### 1.2 Install and Setting up the gcloud CLI
+#### 2 Install and Setting up the gcloud CLI
 Import the Google Cloud public key.
 ```bash
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
@@ -136,7 +134,7 @@ Run gcloud init to get started
 ```bash
 gcloud init
 ```
-#### 1.3 Setup permissions for Service Account:
+#### 3 Setup permissions for Service Account:
 
 ![img.png](images/img.png)
 
@@ -153,7 +151,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/cred_names.json
 gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
 ```
 
-#### 1.4 Setting up terraform and creating Secret 
+#### 4. Setting up terraform and creating Secret 
 
 Before running any Terraform commands, change the default value of the variable named project_id in the ./terraform/variables.tf file.
 
@@ -181,15 +179,15 @@ Mount secrets from Google Secret Manager through the Google Console UI.
 4. Under the field labeled Select a role, enter the value Secret Manager Secret Accessor.
 5. Click the button SAVE.
 
-#### 1.5 Deploying:
+#### 5. Deploying:
 
-1. Change directory into scripts folder:
+Change directory into scripts folder:
 
 ```bash
 cd terraform
 ```
 
-2. Initialize Terraform:
+Initialize Terraform:
 
 ```bash
 terraform init
@@ -223,7 +221,7 @@ rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 ```
 
-3. Deploy:
+Deploy:
 
 ```bash
 terraform apply
@@ -237,3 +235,10 @@ Apply complete! Resources: 7 added, 1 changed, 0 destroyed.
 ```
 
 After a few minutes, open a browser the link you recieved above
+
+
+## TL;DR
+
+This project builds a comprehensive data pipeline to analyze ProductHunt data, leveraging Google Cloud, BigQuery, and Looker Studio. It automates data extraction, transformation, and visualization to provide actionable insights on startup launches. The setup involves configuring GCP, Terraform, and service accounts, making it easy to replicate the project.
+
+For more details, visit the [GitHub repository](https://github.com/kirill505/de-zoomcamp-project).

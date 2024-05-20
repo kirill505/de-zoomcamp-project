@@ -43,12 +43,12 @@ This project, developed for the [Data Engineering Zoomcamp 2024](https://github.
 
 ## Instructions to Replicate the Project
 
-1. [**Preparing data**](#0-preparing-dataset) Download historical data, updload to GCS bucket
-2. [**Install Terraform:**](#1-install-and-setting-up-terraform) Setup Terraform for infrastructure management.
-3. [**Install gcloud CLI:**](#2-install-and-setting-up-the-gcloud-cli) Configure Google Cloud CLI for managing services.
-4. [**Setup Service Account:**](#3-setup-permissions-for-service-account-) Create and configure service accounts and permissions.
-5. [**Creating Secrets**](#4-setting-up-terraform-and-creating-secret) Creating Secret
-6. [**Deploy Infrastructure:**](#5-deploying-) Use Terraform scripts to deploy resources.
+1. [**Preparing data:**](#1-preparing-dataset) Download historical data, updload to GCS bucket
+2. [**Install Terraform:**](#2-install-and-setting-up-terraform) Setup Terraform for infrastructure management.
+3. [**Install gcloud CLI:**](#3-install-and-setting-up-the-gcloud-cli) Configure Google Cloud CLI for managing services.
+4. [**Setup Service Account:**](#4-setup-permissions-for-service-account-) Create and configure service accounts and permissions.
+5. [**Creating Secrets**](#5-setting-up-terraform-and-creating-secret) Creating Secret
+6. [**Deploy Infrastructure:**](#6-deploying-) Use Terraform scripts to deploy resources.
 
 ### 1. Preparing dataset
 I parsed previous data from archives using producthunt API: https://api.producthunt.com/v2/docs

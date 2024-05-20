@@ -42,13 +42,15 @@ This project, developed for the [Data Engineering Zoomcamp 2024](https://github.
 ![dashboard_3_3.png](images%2Fdashboard_3.png)
 
 ## Instructions to Replicate the Project
-1. [**Install Terraform:**](#1-install-and-setting-up-terraform) Setup Terraform for infrastructure management.
-2. [**Install gcloud CLI:**](#2-install-and-setting-up-the-gcloud-cli) Configure Google Cloud CLI for managing services.
-3. [**Setup Service Account:**](#3-setup-permissions-for-service-account-) Create and configure service accounts and permissions.
-4. [**Creating Secrets**](#4-setting-up-terraform-and-creating-secret) Creating Secret
-5. [**Deploy Infrastructure:**](#5-deploying-) Use Terraform scripts to deploy resources.
 
-## Dataset
+1. [**Preparing data**](#0-preparing-dataset) Download historical data, updload to GCS bucket
+2. [**Install Terraform:**](#1-install-and-setting-up-terraform) Setup Terraform for infrastructure management.
+3. [**Install gcloud CLI:**](#2-install-and-setting-up-the-gcloud-cli) Configure Google Cloud CLI for managing services.
+4. [**Setup Service Account:**](#3-setup-permissions-for-service-account-) Create and configure service accounts and permissions.
+5. [**Creating Secrets**](#4-setting-up-terraform-and-creating-secret) Creating Secret
+6. [**Deploy Infrastructure:**](#5-deploying-) Use Terraform scripts to deploy resources.
+
+### 1. Preparing dataset
 I parsed previous data from archives using producthunt API: https://api.producthunt.com/v2/docs
 
 For parsing data I wrote the srcipt - producthunt_parser.py. It running by CMD. Example:
@@ -68,11 +70,9 @@ gsutil -m cp -r 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024  gs://bucket_n
 
 ![gcp_bucket.png](images%2Fgcp_bucket.png)
 
-## Instructions on how to replicate the project
-
 ### Setting up Google Cloud Platform account
 In this section, I'll cover deploying Mage using Terraform and Google Cloud.
-#### 1. Install and Setting up Terraform
+#### 2. Install and Setting up Terraform
 Ensure that your system is up to date and you have installed the gnupg, software-properties-common, and curl packages installed. You will use these packages to verify HashiCorp's GPG signature and install HashiCorp's Debian package repository.
 ```bash
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
@@ -114,7 +114,7 @@ Verify that the installation worked by opening a new terminal session and listin
 terraform -help
 ```
 
-#### 2 Install and Setting up the gcloud CLI
+#### 3. Install and Setting up the gcloud CLI
 Import the Google Cloud public key.
 ```bash
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
@@ -134,7 +134,7 @@ Run gcloud init to get started
 ```bash
 gcloud init
 ```
-#### 3 Setup permissions for Service Account:
+#### 4. Setup permissions for Service Account:
 
 ![img.png](images/img.png)
 
@@ -151,7 +151,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/cred_names.json
 gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
 ```
 
-#### 4. Setting up terraform and creating Secret 
+#### 5. Setting up terraform and creating Secret 
 
 Before running any Terraform commands, change the default value of the variable named project_id in the ./terraform/variables.tf file.
 
@@ -179,7 +179,7 @@ Mount secrets from Google Secret Manager through the Google Console UI.
 4. Under the field labeled Select a role, enter the value Secret Manager Secret Accessor.
 5. Click the button SAVE.
 
-#### 5. Deploying:
+#### 6. Deploying:
 
 Change directory into scripts folder:
 
@@ -235,10 +235,3 @@ Apply complete! Resources: 7 added, 1 changed, 0 destroyed.
 ```
 
 After a few minutes, open a browser the link you recieved above
-
-
-## TL;DR
-
-This project builds a comprehensive data pipeline to analyze ProductHunt data, leveraging Google Cloud, BigQuery, and Looker Studio. It automates data extraction, transformation, and visualization to provide actionable insights on startup launches. The setup involves configuring GCP, Terraform, and service accounts, making it easy to replicate the project.
-
-For more details, visit the [GitHub repository](https://github.com/kirill505/de-zoomcamp-project).
